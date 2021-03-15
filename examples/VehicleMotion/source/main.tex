@@ -1,0 +1,179 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{romannum}
+\usepackage[table,xcdraw]{xcolor}
+\renewcommand{\arraystretch}{1.2}
+
+
+
+\title{\textbf{\fontsize{26}{12}\selectfont \Romannum{1}A Vehicle Motion Lab}}
+\author{{\LARGE Lakee Sivaraya}\\[0.2in] CRSid : ls914\\[0.1in] Lab Group : 53}
+
+\date{12 February 2021}
+
+% new main section command
+
+\newcommand{\main}[4]{
+    \section{#2}
+    
+    \begin{figure}[h]
+        \begin{center}
+        \includegraphics[width=\linewidth, height = 0.5\textheight, keepaspectratio]{fig#1png.png} 
+         \caption{#3}
+        \label{fig:#1}      
+        \end{center}
+    
+    \end{figure}
+    
+    #4
+    \newpage
+}
+
+\newcommand{\bul}[1]{\begin{itemize}
+    #1
+\end{itemize}}
+
+% title page
+\begin{document}
+
+\begin{titlepage}
+\maketitle
+    \centering
+    \vfill
+    {\bfseries\Large
+     Emmanuel College\vspace{0.4in}
+    }    
+    
+    \includegraphics[width=3cm]{Emmanuel.pdf} 
+    \vfill
+    \vfill
+    \thispagestyle{empty}
+
+\end{titlepage}
+\newpage
+
+\main{1}{Stationary|Q1}{Data of the car when stationary}{
+
+\begin{itemize}
+    \item To confirm that the sampling rate is $20 Hz$, the number of data points between a $n$ second interval should be $20n$, i.e: you should count 40 data points between a 2 second interval
+\end{itemize}
+
+    
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|c|c|c}
+Data & Quantization Step Size & Mean Value & Peak-Peak Value \\ \hline
+Lateral Acceleration / $ms^{-2}$    &     0.01                    &   0.245         & 0.05                \\
+Wheel Encoder Count     &              N/A           &      0      &  0               \\
+Yaw Velocity / $rads^{-1}$     &                0.001         &    -0.001        &       0.004          \\
+Longitudinal Acceleration / $ms^{-2}$     &     0.01                   & 0.1            &   0.04             
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+    \item The approximate mean values and peak-peak values for Yaw Velocity and Wheel Count are $\approx 0$, which is expected since it is stationary. \item There was a small $0.1ms^{-2}$ for mean longitudinal acceleration and $0.04ms^{-2}$ peak-peak, which are all insignificant. \item However $0.25ms^{-2}$ lateral acceleration is unexpectedly high, this could be due to calibration errors in the inertial measurement unit. To support this, the peak-peak as very small hence indicating that the value of acceleration does not vary much from $0.25ms^{-2}$ at rest.\item Overall the mean values of each graph did not vary my much which is exactly what we would expect for a stationary car.
+\end{itemize}
+
+
+}
+\main{2}{Straight Line Motion|Wheel Encoder|Q2}{Wheel encoder distance under straight line motion}{
+
+\bul{
+    \item The wheel encoder data is used to calculate the distance $d$ travelled by multiplying the number of turns completed $n$ by the circumference of the wheel of wheel diameter $D$, giving us $d(t)=0.25\pi D^2 n(t)$  
+    
+    \item To ensure that the final distance was equal to the measured distance ($1.2m$), the wheel diameter value was changed to $D=0.037m$. In reality, using a tape measure, it was found that the $D_{reality}=0.037m$, which represents a $+2.2\%$ error
+
+}
+
+
+
+
+
+
+}
+\main{3}{Straight Line Motion|IMU Unit|Q3}{Graphs of longitudinal acceleration,velocity and distance}{
+
+\bul{
+\item The distance graph was achieved by numerically integrating the longitudinal acceleration twice to achieve the distance
+\item Without the necessary boundary conditions, it was found that the graph of distance was way off the encoder graph. This happens since the longitudinal velocity at rest is not zero as shown in Section 1, as when this is integrated twice it caused a quadratic increase in the displacement near the end of the motion.
+\item Applying the boundary condition that the velocity at the end should be zero, (by setting \texttt{axoffest=-0.175}), gave us graphs which are very similar, Figure \ref{fig:3}. We found that the $d=1.234m$, which represents a $+2.83\%$ error from the measured value.
+\item Overall, the change in \texttt{axoffest}, gave us results with no significant discrepancies between the two sets of data.
+}
+
+}
+\main{4}{Circular Motion|Q4}{Graph of yaw velocity and angle and the radius of path}{
+\bul{
+\item Integrating the yaw velocity data gave us the yaw angle. For 1 complete turn, setting \texttt{omegazscaling=1.06}
+ensured that the measured yaw angle (in blue) and the expected yaw angle, $2\pi$ rad (in orange) are the same. 
+\item The average radius $r_{avg}$, was calculated by dividng the distance travelled by the yaw angle at the end. We found that $r_{avg} = 0.1506m$. From the practical it was found that $r=\frac{30.5cm}{2}=0.1525m$, which means our measured value has an error of $-1.25\%$
+\item The estimate is quite consistent with the average value. Hence this method of calcualting raduis of the path is accurate.
+}
+}
+\main{5}{Circular Motion|Q5}{Graph of longitudinal, yaw velocity and radius of path}{
+\bul{
+\item This section we use the formula $v_{\perp}=\omega_z r$, to calculate the radius of a path. So we get $$\textrm{Radius of Path}=\frac{\textrm{Longitudinal Velocity}}{\textrm{Yaw Velocity}}$$
+
+
+\item The average value of the radius found with this method is comparable to the radius found with the method in Section 4
+\item However the initial and final values are quite wrong, this occurs because it is when the car is stationary so the value for yaw velocity is low, leading to very high radius
+}
+
+}
+\main{6}{Circular Motion|Q6}{Graph of longitudinal velocity, lateral acceleration and radius of path}{
+\bul{
+\item In this section we use the longitudinal velocity $v_x$, the lateral acceleration $a$, to calculate the radius of the path $r$, using $r=\frac{v_x^2}{a}$
+\item Firstly, we need to ensure that the initial and final values of $a$ are zero, this can be achieved by setting \texttt{ayoffest=-0.25}
+\item From Figure \ref{fig:6} we can see that the average value of radius is not very accurate with the previous calculations.  \item We should note that the IMU is located in the center of the car, whilst the encoder is located on the left, this means that the average value of radius calculated using this method should be greater than the previous calculations by $\frac{\textrm{car width}}{2}$. 
+
+\item The graph is very `spiky', this is mainly due to the noisy lateral acceleration data. For this very reason I would deem it to be an unsuitable method to calculate radius, as the graph is just too chaotic, making it impossible to get a reasonable value for the radius.
+
+
+}
+}
+\main{7}{Circular Motion|Q7}{Graph of longitudinal velocity and acceleration}{
+\bul{
+\item In this section we get the longitudinal velocity by integrating longitudinal acceleration.
+\item To ensure that the initial and final longitudinal velocity were zero, we used an \texttt{axoffset=-0.15625}.\item This value is slightly different from the value we used in Section 3, this is because the data set used in this section is not the same as the one used in Section 3, so they won't be exactly the same.
+
+}
+}
+\main{8}{Circular Motion|Q8}{Graphs in Section 8, plus a graph of radius of path}{
+\bul{
+\item Now using the same method in Section 5 calculate the radius of the path.$$\textrm{Radius of Path}=\frac{\textrm{Longitudinal Velocity}}{\textrm{Yaw Velocity}}$$
+\item From the graph we get $r\approx0.23m$, which is $0.23-0.1506\approx 0.08m$ greater than the radius calculated in Section 5. \item This difference in radius is due to the reason that was mentioned in Section 6, that the IMU is located in the center of the car, whilst the encoder is located on the left, this means that the average value of radius calculated using this method should be greater than the previous calculations by $\frac{\textrm{car width}}{2}$
+\item Once again, like in Section 6, the values of initial and final values of radius on the graph are very high due to the fact that the initial an final Yaw velocities were very low, since the car was stationary.
+\item Generally speaking this method works quite well for determining the radius, if we ignore the `errors' in the beginning and end of the graph.
+
+}
+}
+\main{9}{Arbitrary Path|Q9}{Graph representing arbitrary motion of the car in the $XY$ plane}{
+\bul{
+\item Figure \ref{fig:9} is exactly what we would expect the motion to look like in the $XY$ plane.\item The only discrepancy I could notice is that the starting point is not aligned with the ending point, this could be due the fact that the car did get slightly shifted during its motion and did not perfectly return to its original point, or it could be due to errors in the sensors.
+}
+\\
+\underline{Alternative methods to get $XY$ motion }
+\bul{
+\item Longitudinal and lateral acceleration provides us with enough information to plot 2D motion, a major disadvantage of this is that the data for accelerations are quite noisy and thus the 2D motion plot will not be that accurate.
+\item Longitudinal acceleration and Yaw Angle will also be enough information to plot 2D motion, but for the very same reason as the other alternative method, the resulting plot will be inaccurate and noisy.
+}
+}
+\section{Conclusion}
+In conclusion, we have explored the different ways in which we can use
+\bul{
+\item Lateral Acceleration
+\item Longitudinal Acceleration
+\item Yaw Velocity
+\item Wheel encoder count
+
+}
+data from a IMU and a rotary encoder to analyse the motion of a vehicle.We considered the possible benefits and disadvantages of using certain measurements in analysis and used the best method to plot the cars motion in 2D in Section 9.
+
+
+
+
+\end{document}
