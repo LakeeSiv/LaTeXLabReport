@@ -1,6 +1,9 @@
 # LaTeX Lab report template
 This is a lab report template which I have made and have slowly been developing to suit my workflow. I have put this template on here so anyone who is interested in using it can easily clone this repo
-(`git clone https://github.com/LakeeSiv/LaTeXLabReport.git`) and start using the template.
+
+```git clone https://github.com/LakeeSiv/       LaTeXLabReport.git```
+
+and start using the template.
 
 This template at first seems to be mainly sutied to students at the Univeristy of Cambridge (as the title page contains info about CRSid), however chaning a few lines on `utils\utils.tex` will allow you to change the title page info.
 
