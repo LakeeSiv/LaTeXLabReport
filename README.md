@@ -16,6 +16,8 @@ This template at first seems to be mainly sutied to students at the Univeristy o
 
 `utils\desc.txt` contains small descriptions on the custom commands that I have created.
 
+`utils\utils.cwl` contains `.cwl` files, for autocompletion of commands
+
 >Note: the documentation for this template  is not the best
 # Examples
 
