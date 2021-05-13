@@ -1,0 +1,118 @@
+\newcommand{\name}{Lakee Sivaraya}
+\newcommand{\crsid}{ls914}
+\newcommand{\labgroup}{53}
+\newcommand{\college}{Emmanuel College}
+\newcommand{\logodir}{logo/Emmanuel.pdf}
+
+
+
+
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{romannum}
+\usepackage{amsmath}
+\usepackage[table,xcdraw]{xcolor}
+\renewcommand{\arraystretch}{1.2}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+\usepackage{subfig}
+\usepackage{placeins}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{relsize} 
+\usepackage{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+\hypersetup{
+	colorlinks   = true, %Colours links instead of ugly boxes
+	urlcolor     = red, %Colour for external hyperlinks
+	linkcolor    = [rgb]{.3,.3,.3}, %Colour of internal links
+	citecolor   = red %Colour of citations
+}
+
+
+\newcommand{\createtitlepage}{
+	
+	\title{\textbf{\fontsize{24.88}{12}\selectfont \lrtitle}}
+	\author{{\LARGE \name}\\[0.2in] CRSid : \crsid\\[0.1in] Lab Group : \labgroup}
+	
+	\begin{titlepage}
+		\maketitle
+		\centering
+		\vfill
+		{\bfseries\Large
+			\college\vspace{0.4in}
+		}    
+		    
+		\includegraphics[width=3cm]{\logodir} 
+		\vfill
+		\vfill
+		\thispagestyle{empty}
+		\newpage
+		
+	\end{titlepage}
+}
+
+\newcommand{\TOC}{
+	{\hypersetup{linkcolor=black}
+		\tableofcontents
+	}
+	\newpage
+	
+}
+
+\newcommand{\img}[4]{
+	
+	\begin{figure}[h]
+		\begin{center}
+			\includegraphics[width=#2 \linewidth, height =   \textheight, keepaspectratio]{#1} 
+			\caption{#3}
+			\label{fig:#4}      
+		\end{center}
+		    
+	\end{figure}
+	\FloatBarrier
+	\noindent
+}
+
+\newcommand{\darkmode}{
+	\pagecolor[rgb]{0.12156862745
+		,0.12156862745
+		,0.12156862745
+	} 
+	
+	\color[rgb]{.7,.7,.7} 
+}
+
+\newcommand{\bul}[1]{\begin{itemize}
+	#1
+	\end{itemize}}
+
+\newcommand{\num}[1]{\begin{enumerate}
+	#1
+	\end{enumerate}}
+
+\newcommand{\twoimg}[8]{
+	
+	\begin{figure}[h]
+		\centering
+		\begin{minipage}{.5\textwidth}
+			\centering
+			\includegraphics[width=#2\linewidth]{#1}
+			\captionof{figure}{#3}
+			\label{fig:#4}
+		\end{minipage}%
+		\begin{minipage}{.5\textwidth}
+			\centering
+			\includegraphics[width=#6\linewidth]{#5}
+			\captionof{figure}{#7}
+			\label{fig:#8}
+		\end{minipage}
+	\end{figure}
+	% \FloatBarrier
+}
+
+\newcommand{\eq}[1]{\begin{align*}
+	#1
+	\end{align*}}

@@ -1,0 +1,204 @@
+\documentclass[10pt]{article}
+\usepackage{import}
+\import{utils/}{utils.TeX}
+% if table is used uncomment this below
+\captionsetup[table]{position=bottom}   
+
+% \darkmode
+\newcommand{\lrtitle}{Stirling Engine Lab}
+\date{March 15, 2021}
+
+\begin{document}
+\createtitlepage
+% \TOC % uncomment for Table of contents page
+
+\section{Overview}
+
+In this lab report we attempt to explore the performance of a real Stirling compared to the idealized Stirling engine and Carnot engine. To do this we considered
+\bul{
+\item Mechanical Work output of the engine
+\item Efficiencies of the engines
+\item Important assumptions made in calculations
+}
+to make judgements on how the engine performs with different power inputs.\\It was found that by increasing the power input, the power output increases (which is expected) but also the efficiency of the engine decreases. Hence I concluded that two heaters was the best choice when trying to optimize power output and efficency.
+
+\section{Introduction}
+\twoimg{imgs/fig1.PNG}{1}{Stages of the Stirling engine cycle}{fig1}{imgs/fig2.PNG}{.565}{$p-V$ diagram of Stirling engine cycle}{fig2}
+
+\noindent
+The role of the string energy is to convert heat to mechanical work, it achieves this by going through 4 stages in the cycle. The 4 stages are shown in \autoref{fig:fig1} and \autoref{fig:fig2}, the transition between stages can be used to explain how this engine works:
+
+\bul{
+\item Stage 1 to 2: The gas is hot therefore the pressure is high. The high pressure gas ``pushes" the work piston upwards, driving the flywheel. This represents an isothermal expansion, as the pressure decreases and the volume increases, as shown in the path from 1 to 2 in \autoref{fig:fig2}.
+\item Stage 2 to 3: As displacement piston moves back down (due to the flywheels motion), the gas is exposed to the cool end of the engine hence it cools down at a constant volume (isochoric cooling). This is represented by going from Stage 2 to 3 on \autoref{fig:fig2}.
+\item Stage 3 to 4: The both pistons now move down which causes the gas to be compressed (isothermally), hence its pressure increases.  
+\item Stage 4 to 1: The displacer piston now moves upwards exposing the air to the hot part of the cylinder. The air heats up at a constant volume (isochoric heating).
+}
+
+\noindent
+Through repetition of this cycle we can see that the heat was used to drive the flywheel and successfully output mechanical work.\\[1em] 
+The area closed in the $p-V$ cycle (\autoref{fig:fig2}) represents the \textbf{Mechanical Work Output} of the engine. The power of the engine could then be calculated by dividing this work by the time taken for one cycle. The efficiency $\eta$ is
+
+\eq{
+    \eta = \frac{\text{Mechanical Work output}}{\text{Energy input used to heat up the engine}}
+}
+
+\section{Methodology}
+\subsection{Small angle approximations}
+Small angle approximations can be useful in simplifying equations. The two main small angle approximations that we could use for $\cos\theta$ are
+\eq{
+(1) \cos\theta = 1\hspace{5em}  (2) \cos\theta = 1-\frac{\theta ^2}{2}
+}
+The errors due to the approximations are shown in the table below
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}cc@{}}
+\toprule
+Approximation & \% Difference from true value of $[x/L_2]_{\theta = \theta _{max}}$ \\ \midrule
+(1)           & +9.38                                                               \\
+(2)           & +0.0305                                                             \\ \bottomrule
+\end{tabular}
+\caption{Errors due to approximations}
+\label{table:approx}
+\end{table}
+\FloatBarrier
+\noindent
+\autoref{table:approx} shows that using approximation (2) seems to be the better option in terms of accuracy. But option (1) was chosen in the end as it vastly simplifies the equation for $x$, and the error due to this approximation is not too large.
+\subsection{Energy calculation}
+This section covers the approaches that can be used to calculate the work output, which is the area enclosed in a cycle in the $p-V$ graph.
+\eq{
+W=\hspace{-.5em}\oint\displaylimits_{\text{\hspace{.3em}cycle}}\hspace{-.5em}{pdV}
+}
+\subsubsection{Method 1 - Counting squares}
+We calculate the area of one square, $A_{one}$ in the graph by multiplying the pressure and volume intervals between minor grid lines.\\
+The the number of squares $N$ in cycle can be counted manually. Then the total work is just $NA_{one}$\\[1em]
+\underline{Pros}
+\bul{
+\item Quick and to calculate
+\item Gives a reasonably accurate answer (see \autoref{table:poeff})
+}
+\underline{Cons}
+\bul{
+\item High susceptible to human error
+\item Not as accurate as numerical methods
+}
+
+\subsubsection{Method 2 - Cross product of vectors}
+\label{Method 2}
+We firstly defined a arbitrary vector in the form of $\bf{q}=\begin{pmatrix}p\\V\end{pmatrix}$ which for example is at the center of the $p-V$ cycle. Let us call this vector $\bf{q_{center}}$ where
+\eq{
+\bf{q_{center}}= \begin{pmatrix}p_{center}\\V_{center}\end{pmatrix}
+}
+The we consider the vector of two points 1 and 2 on the cycle which are close to each other $\bf{q_1},\bf{q_2}$. The area $\delta A$ of a triangle with vertices at point 1 and 2 and the center can be defined as
+\eq{
+\delta A = \frac{1}{2}\left|(\bf{q_1}-\bf{q_{center}})\times(\bf{q_2}-\bf{q_{center}})\right|
+}
+Then it is trivial that that total area under the graph which is the work, $W$ is
+\eq{
+W=\hspace{-.7em}\sum_{\text{All edges}}{\hspace{-.7em}\delta A}
+}
+\underline{Pros}
+\bul{
+\item Making the distance between edges very small will give us very accurate value of the area
+\item No human error
+}
+\underline{Cons}
+\bul{
+\item Difficult to implement
+}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ccccc@{}}
+\toprule
+&\multicolumn{2}{c}{\bfseries Method 1}
+&\multicolumn{2}{c}{\bfseries Method 2} 
+\\
+\cmidrule(lr){2-3} \cmidrule(l){4-5} 
+\bfseries Number of heaters 
+& Power/W & Efficiency/\%
+& Power/W & Efficiency/\%
+\\
+\midrule
+1 & 0.123 & 0.37 & 0.12 & 0.36 \\
+2 & 0.250 & 0.39 & 0.21 & 0.36\\
+3 & 0.345 & 0.36 & 0.35 & 0.34\\
+\bottomrule
+\end{tabular}
+
+\captionof{table}{Power and efficiency calculations}
+\label{table:poeff}
+\end{table}
+\FloatBarrier
+\noindent
+% \\[1em]
+In the end the  \hyperref[Method 2]{cross product method} was chosen due to its far superior accuracy.
+
+
+\section{Results}
+
+\img{imgs/C1.pdf}{.8}{Processes on the Stirling and Carnot cycle}{process}
+\noindent
+\autoref{fig:process} shows the Carnot, Ideal Stirling, Real Stirling cycles. We can see that the area of the Carnot cycle is greater than the others implying that the Carnot cycle converts more heat to work, and hence is more efficient than the other cycles. Unsurprisingly the area under the ideal Stirling is greater than the real cycle due to all the energy losses, thus the ideal Stirling efficiency is greater than the real efficiency.
+\pagebreak
+
+
+
+\subsection{Difference between real and ideal cycles}
+\twoimg{imgs/1heat.pdf}{1}{1 Heater}{1heat}{imgs/2heat.pdf}{1}{2 Heaters}{2heat}
+\FloatBarrier
+\img{imgs/3heat.pdf}{.6}{3 Heaters}{3heat}
+\FloatBarrier
+\noindent
+From the figures above you can see that the real cycle deviates from the ideal cycle for all of the scenarios. \\The \emph{quasi-elliptical} shape of the real cycle is different because the volume varies near-sinusoidally with respect to time. The near-sinusoidal behaviour means at certain times the gas is being compressed very quickly resulting in a sudden increase in pressure (which is expected) but it also causes an sudden increase in temperature, this behaviour is evident when you look at the \emph{pseudo-isothermal compression} in \autoref{fig:3heat}, as the curve is above the real cycle, the temperature must have increased slightly (effectively moving up to another isotherm).\\ Consequently, from \autoref{fig:process}, we noted that the expansion is the slowest part of the cycle, meaning the variation in volume will not cause significant changes in the temperature (quasi-equilibrium), hence the curve of \emph{pseudo-isothermal expansion} should be reasonably close to the ideal cycle, which is exactly what the figures above show.
+\\[1em] 
+As the number of heaters increase, the size of the closed cycle for all the processes increase, meaning the energy output increases. It is quite notable
+when comparing \autoref{fig:1heat} to \autoref{fig:3heat} that the ratio of the area between the non-ideal Stirling cycle and the Carnot cycle ($\frac{A_{non-ideal}}{A_{carnot}}$) decreases. This means the Stirling engine has increasing energy loss hence it has a lower efficiency compared to the perfect Carnot cycle. This ratio is proportional to the \emph{exergy efficiency}, which is covered in the next section.
+\pagebreak
+\subsection{Variation of power and efficiencies}
+\begin{table}[h]
+\centering\begin{tabular}{@{}ccccc@{}}
+\toprule
+&\multicolumn{2}{c}{\bfseries Ideal Stirling}
+&\multicolumn{1}{c}{\bfseries Carnot} 
+\\
+\cmidrule(lr){2-3} \cmidrule(l){4-4} 
+\bfseries Number of heaters 
+& Energy output/J & Efficiency/\%
+& Efficiency/\% & Exergy Efficiency/$\times 10^{-3}$
+\\
+\midrule
+1 & 0.392 & 7.13 & 33 & 11.2 \\
+2 & 0.532 & 6.05 & 43 & 9.09\\
+3 & 0.671 & 6.67 & 51 & 7.05\\
+\bottomrule
+\end{tabular}
+\caption{Carnot and Ideal Stirling efficiencies}
+\label{table:c4}
+\end{table}
+\FloatBarrier
+\noindent
+It is import to realize that the calculations of efficiencies in \autoref{table:c4} assumes the temperature of the gas at the hot and cold side of the engine is equal to the temperature as each side of the engine.\\[1em]
+\noindent
+From both \autoref{table:poeff} and \autoref{table:c4} we can see that for the Stirling engine as the power input increases, the energy output increases. However for the non-ideal engine past 2 heaters we see that the efficiency starts decreases. This is because with 3 heaters the temperature difference between the hot end of the engine and the atmosphere is very large, thus there is a significant heat transfer between the the hot end and atmosphere which results in a substantial energy loss. It is then obvious that the \emph{actual temperature} of the air (when at the hot end) will be less than the temperature of the hot end of the engine. This very fact explains why there is such a large difference between the ideal Stirling efficiency and the real Stirling efficiency.\\
+The Carnot efficiency represents the maximum possible efficiency that an engine could have. The equation for Carnot efficiency is
+\eq{
+\eta _{carnot} = 1-\frac{T_{cold}}{T_{hot}}
+}
+As it is just a function of temperature, increasing the power input should increases the efficiency, due to a higher values of $T_{hot}$.
+\\
+We can define a new term called, exergy efficiency which is 
+\eq{
+\text{Exergy efficiency} = \frac{\text{Non-ideal Stirling efficiency}}{\text{Carnot efficiency}} = \frac{\text{Energy out}}{\text{Maximum possible energy out}} 
+}
+This term quantitatively expresses how well a engine does compared to the Carnot engine (which is a theoretical ``perfect" engine). From \autoref{table:c4} you can see that increasing the energy input resulted in a decreases in exergy efficiency meaning the Stirling engine has an increasing power loss. \\So when you are implementing a Stirling engine you must make a comprise that for engines with higher output powers you are going to get a lower efficiency. In our scenario, 2 heaters had a relatively high power output and a better exergy efficient compared to the 3 heaters, so it would be the best one in terms of keeping the power and efficiency high. 
+
+
+\section{Conclusion}
+
+In conclusion we have explored the methods that can be used to calculate the work done by a Stirling engine, and how a the real Stirling engine differs from the idealized engine that we are normally taught. Furthermore we compared our results to the theoretical best engine called the Carnot engine. This report demonstrated that for a real Stirling engine it is very import that we chose balance between power output and efficiency.
+
+\end{document}
+
+
